@@ -38,6 +38,21 @@ fn command_detechtor(x:&Vec<&str>)-> Result<i8, String>{
             Err("unknown command".to_string())
         }
 }
+fn remove(what_to_remove:String,the_vector_to_remove_from :&mut Vec<String>)-> String {
+    
+    
+    for i in 0..the_vector_to_remove_from.len() {
+        if the_vector_to_remove_from[1] == what_to_remove {
+            
+            
+        }
+        
+        
+    }
+
+    
+    
+}
 
 fn add (x: &Vec<&str>) -> String {
     let mut result = String::new();
@@ -49,20 +64,27 @@ fn add (x: &Vec<&str>) -> String {
 }
 
 fn main() {
+    let mut save:Vec<String> = vec![];
 
     let input:String = input();
     let parser_out: Vec<&str> = parser(&input);
     let ref_parser_out: &Vec<&str> = &parser_out;
 
-    let command: Result<bool, String> = command_detechtor(&ref_parser_out);
+    let command:Result<i8, String> = command_detechtor(&ref_parser_out);
 
-    let value:String = match command {
-        Ok(1) => {
-            
-        }
+    
+
+    if command == Ok(1) {
+        save.push(add(&parser_out));
     }
 
-    println!("{:?}", command)
+    // match command {
+    //     Ok(1) => value={save.push(add()) }
+    // };
+
+    dbg!(&command);
+    dbg!(&save);
+    
 
 
     
