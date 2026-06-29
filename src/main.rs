@@ -26,7 +26,7 @@ fn command_detechtor(x:&Vec<&str>)-> Result<i8, String>{
         result =1;
         Ok(result)
     }
-    else if &x[0] == &"remove" {
+    else if &x[0] == &"remove" || &x[0] == &"rm" {
         result = 2;
        Ok(result)
     }else if &x[0] == &"show" {
@@ -38,19 +38,18 @@ fn command_detechtor(x:&Vec<&str>)-> Result<i8, String>{
             Err("unknown command".to_string())
         }
 }
-fn remove(what_to_remove:String,the_vector_to_remove_from :&mut Vec<String>)-> String {
+fn remove(what_to_remove:&String,the_vector_to_remove_from_the_save_var :&mut Vec<String>)-> String {
+    let length_of_vec = the_vector_to_remove_from_the_save_var.len();
     
-    
-    for i in 0..the_vector_to_remove_from.len() {
-        if the_vector_to_remove_from[1] == what_to_remove {
-            
+    for i in 0..length_of_vec{
+        if &the_vector_to_remove_from_the_save_var[i] == what_to_remove {
+            the_vector_to_remove_from_the_save_var.remove(i);
+            return "Done!".to_string();
             
         }
-        
-        
     }
-
-    
+    dbg!(the_vector_to_remove_from_the_save_var);
+    return "err in remove func (maybe no input 🤷‍♂️)".to_string();
     
 }
 
@@ -58,32 +57,37 @@ fn add (x: &Vec<&str>) -> String {
     let mut result = String::new();
     for i in &x[1..] {
         result.push_str(&i);
+        result.push_str(" ");
     }
+    result.pop();
 
-    result
+    return result;
 }
 
 fn main() {
     let mut save:Vec<String> = vec![];
+    loop {
+        let input: String = input();
+        let parser_out: Vec<&str> = parser(&input);
+        let ref_parser_out: &Vec<&str> = &parser_out;
 
-    let input:String = input();
-    let parser_out: Vec<&str> = parser(&input);
-    let ref_parser_out: &Vec<&str> = &parser_out;
+        let command: Result<i8, String> = command_detechtor(&ref_parser_out);
 
-    let command:Result<i8, String> = command_detechtor(&ref_parser_out);
+        if command == Ok(1) {
+            save.push(add(&parser_out));
+        } else if command == Ok(2) {
+            remove(&parser_out[1..].join(" "), &mut save);
+        }
 
-    
-
-    if command == Ok(1) {
-        save.push(add(&parser_out));
+        dbg!(&command);
+        dbg!(&save);
     }
 
     // match command {
     //     Ok(1) => value={save.push(add()) }
     // };
 
-    dbg!(&command);
-    dbg!(&save);
+    // dbg!(&save);
     
 
 
