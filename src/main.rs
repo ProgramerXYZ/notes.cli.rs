@@ -17,16 +17,12 @@ fn parser(x: &str) -> Vec<&str> {
 //-----------------------------------------Command Detechtor-------------------------------------
 fn command_detechtor(x: &[&str]) -> Result<i8, String> {
     // let command = x[0];
-    let result: i8;
     if x[0] == "add" {
-        result = 1;
-        Ok(result)
+        Ok(1)
     } else if x[0] == "remove" || x[0] == "rm" {
-        result = 2;
-        Ok(result)
+        Ok(2)
     } else if x[0] == "show" {
-        result = 3;
-        Ok(result)
+        Ok(3)
     } else {
         Err("unknown command".to_string())
     }
@@ -51,6 +47,8 @@ fn remove(
 //-----------------------------------------Add---------------------------------------
 fn add(x: &[&str]) -> String {
     let mut result = String::new();
+    if x[0] == ""{panic!("CAN'T ADD NOTHING!");}
+
     for i in &x[1..] {
         result.push_str(i);
         result.push(' ');
@@ -73,7 +71,7 @@ fn main() {
         match command {
             Ok(1) => save.push(add(&parser_out)) ,
             Ok(2) => println!("{}",remove(&parser_out[1..].join(" "), &mut save)),
-            Ok(3) => {let y: String= save[1..].join(" ");println!("{}", y);},
+            Ok(3) => {let y: String= save[0..].join(" ");println!("{}", y);},
             _ => {}
         }
     dbg!(&save);
