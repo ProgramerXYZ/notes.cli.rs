@@ -7,11 +7,13 @@ fn input() -> String {
 
     text.trim().to_string()
 }
+//------------------------------------Parser------------------------------------------
 
 fn parser(x: &str) -> Vec<&str> {
-    let it: Vec<&str> = x.split_whitespace().collect();
-    it
+     x.split_whitespace().collect()
 }
+
+
 //-----------------------------------------Command Detechtor-------------------------------------
 fn command_detechtor(x: &[&str]) -> Result<i8, String> {
     // let command = x[0];
@@ -39,11 +41,12 @@ fn remove(
     for i in 0..length_of_vec {
         if &the_vector_to_remove_from_the_save_var[i] == what_to_remove {
             the_vector_to_remove_from_the_save_var.remove(i);
-            return "Done!".to_string();
+            return format!("{} as been success fully removed",what_to_remove);
         }
     }
+    
     dbg!(the_vector_to_remove_from_the_save_var);
-    "err in remove func (maybe no input 🤷‍♂️)".to_string()
+    format!("{what_to_remove} not found")
 }
 //-----------------------------------------Add---------------------------------------
 fn add(x: &[&str]) -> String {
@@ -66,17 +69,18 @@ fn main() {
 
         let command: Result<i8, String> = command_detechtor(&parser_out);
 
-        if command == Ok(1) {
-            save.push(add(&parser_out));
-        } else if command == Ok(2) {
-            remove(&parser_out[1..].join(" "), &mut save);
+//------------------------------------Match-----------------------------------------
+        match command {
+            Ok(1) => save.push(add(&parser_out)) ,
+            Ok(2) => println!("{}",remove(&parser_out[1..].join(" "), &mut save)),
+            Ok(3) => {let y: String= save[1..].join(" ");println!("{}", y);},
+            _ => {}
         }
+    dbg!(&save);
 
     }
 
-    // match command {
-    //     Ok(1) => value={save.push(add()) }
-    // };
+
 
     // dbg!(&save);
 
